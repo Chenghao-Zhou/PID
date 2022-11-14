@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="jspsych-psychophysics-3.3.0/jspsych-dist/dist/jspsych.js"></script>
+    <script src="jspsych-psychophysics-3.3.0/jspsych-dist/dist/plugin-html-button-response.js"></script>
+    <script src="jspsych-psychophysics-3.3.0/jspsych-psychophysics.js"></script>
+    <script src="jspsych-psychophysics-3.3.0/jspsych-dist/dist/plugin-fullscreen.js"></script>
+    <script src="https://pixijs.download/release/pixi.js"></script>
+    <link rel="stylesheet" href="jspsych-psychophysics-3.3.0/jspsych-dist/dist/jspsych.css">
+    </link>
+</head>
+
+<body></body>
+<script>
+    // This file is the demo file for PID-decision.
+
+    //v*distance*block*trial
+    const v_number = 2;
+
+    const distance_number = 2;
+
+    const block = 4 * 7; // random all
+
+    const trial_number = 15;
+
+
+
+
+
+
+
+    // FIXME1. where circle start and end 
+    // FIXME2. the v of circle
+    // FIXME3. it should be block design (the degree)
+    // FIXME4. the feedback maybe in 2 ways (too fast/slow  or XX seconds fast/slow)
+    // FIXME5. when judge
+    // FIXME6. the respond can be the space key
+
+
+    const exp_parments = [
+        { Target_loc: 1, speed: 1, show_time: 500 }
+    ]
+
+
+
+    const jsPsych = initJsPsych({
+        on_finish: function () {
+            jsPsych.data.displayData();
+            jsPsych.data.get().localSave('csv', 'test.csv');
+            document.getElementById("jspsych-content").innerHTML = "<div><p style = 'color:white; font-size = 20px'>实验结束，非常感谢您的参与！</p >" +
+                "<p style = 'color:white; font-size : 20px'>only a demo; if find bug</p >" +
+                "<p style = 'color:white; font-size : 20px'>plz emaill me chenghao.zhou@nyu.edu </p ></div>";
+        }
+    })
+    console.log(`jsPsych Version ${jsPsych.version()}`)
+
+    const pixi_flag = jsPsych.data.getURLVariable('pixi_flag') === '1' ? true : false;
+
+
+    const instruction = {
+        type: jsPsychHtmlButtonResponse,
+        stimulus: 'Click on the Start button.',
+        choices: ['Start']
+    }
+
+    const fullscreen_trial = {
+        type: jsPsychFullscreen,
+        fullscreen_mode: true
+    }
+
+    const fullscreen_trial_exit = {
+        type: jsPsychFullscreen,
+        fullscreen_mode: false
+    }
+
+
+    const block_instruc_exam = {
+        type: jsPsychHtmlButtonResponse,
+        stimulus: '指导语：心中估算白球到达目标处按空格键；点击开始进入演示模式',
+        choices: ['开始']
+    }
+
+    const viz_trial = {
+        data: {
+            screen_id: "viz"
+        },
+        timeline: [
+            {
+                type: jsPsychPsychophysics,
+                pixi: pixi_flag,
+                stimuli: [
+                    {
+                        obj_type: 'circle',
+                        startX: 1920 / 6, // location in the canvas 200
+                        startY: 1080 / 2, //400
+                        endX: 1920 / 6 * 2,
+                        endY: 1080 / 2,
+                        radius: 50,
+                        line_color: 'black', // You can use the HTML color name instead of the HEX color.
+                        fill_color: 'black',
+                        show_start_time: 0, // ms after the start of the trial
+                        show_end_time: 2000, // fast = 500; slow = 2000
+                        motion_start_time: 0,
+                        motion_end_time: 2000,
+                    },
+                    {
+                        obj_type: 'line',
+                        x1: 1920 / 6 * 2,
+                        y1: 1080 / 2 + 200,
+                        x2: 1920 / 6 * 2,
+                        y2: 1080 / 2 - 200,
+                        line_color: 'green' // Change the coordinate origin to the center of the window}，
+                    },
+                    {
+                        obj_type: 'text',
+                        startX: 1920 / 6,
+                        startY: 1080 / 2 - 100,
+                        content: '匀速运动',
+                        font: "22px 'Arial'",
+                        text_color: 'white',
+                        endX: 1920 / 6 * 2,
+                        endY: 1080 / 2 - 100,
+                        show_start_time: 0, // ms after the start of the trial
+                        show_end_time: 2000, // fast = 500; slow = 2000
+                        motion_start_time: 0,
+                        motion_end_time: 2000,
+                    },
+                    {
+                        obj_type: 'text',
+                        startX: 1920 / 6 * 2,
+                        startY: 1080 / 2 - 100,
+                        content: '隐身',
+                        font: "22px 'Arial'",
+                        text_color: 'white',
+                        endX: 1920 / 6 * 4,
+                        endY: 1080 / 2 - 100,
+                        show_start_time: 2000, // ms after the start of the trial
+                        show_end_time: 2000 + 2000 * (4 - 2), // fast = 500; slow = 2000
+                        motion_start_time: 2000,
+                        motion_end_time: 2000 + 2000 * (4 - 2),
+                    },
+                    {
+                        obj_type: 'text',
+                        startX: 1920 / 6 * 4,
+                        startY: 1080 / 2 - 100,
+                        content: '到达目标',
+                        font: "22px 'Arial'",
+                        text_color: 'white',
+                        show_start_time: 2000 + 2000 * (4 - 2), // ms after the start of the trial
+                    },
+                    {
+                        obj_type: 'circle',
+                        startX: 1920 / 6 * 4,
+                        startY: 1080 / 2,
+                        radius: 50,
+                        line_color: 'black', // You can use the HTML color name instead of the HEX color.
+                        fill_color: 'black',
+                    },
+                    {
+                        obj_type: 'text',
+                        startX: 1920 / 6 * 4,
+                        startY: 1080 / 2 - 100,
+                        content: '目标',
+                        font: "22px 'Arial'",
+                        text_color: 'white',
+                        show_start_time: 0, // ms after the start of the trial
+                        show_end_time: 2000 + 2000 * (4 - 2), // ms after the start of the trial
+                    },
+                    {
+                        obj_type: 'text',
+                        startX: 'center',
+                        startY: 1080 / 4,
+                        content: '白球到达目标处按空格键',
+                        font: "22px 'Arial'",
+                        text_color: 'white',
+                        show_start_time: 0, // ms after the start of the trial
+                        response_ends_trial: 'true',
+                        response_type: 'key',
+                        choices: ['Space'],
+                    },
+                ],
+
+
+            }
+        ],
+    }
+
+    const block_instruc_formal = {
+        type: jsPsychHtmlButtonResponse,
+        stimulus: '指导语：心中估算白球到达目标处按空格键；点击开始进入正式实验',
+        choices: ['开始']
+    }
+
+    var rrt = [];
+
+    const exp_formal = {
+        data: {
+            screen_id: "formal"
+        },
+        type: jsPsychPsychophysics,
+        pixi: pixi_flag,
+        stimuli: [
+            {
+                obj_type: 'circle',
+                startX: 1920 / 6, // location in the canvas 200
+                startY: 1080 / 2, //400
+                endX: 1920 / 6 * 2,
+                endY: 1080 / 2,
+                radius: 50,
+                line_color: 'black', // You can use the HTML color name instead of the HEX color.
+                fill_color: 'black',
+                show_start_time: 0, // ms after the start of the trial
+                show_end_time: 2000, // fast = 500; slow = 2000
+                motion_start_time: 0,
+                motion_end_time: 2000,
+
+            },
+            {
+                obj_type: 'line',
+                x1: 1920 / 6 * 2,
+                y1: 1080 / 2 + 200,
+                x2: 1920 / 6 * 2,
+                y2: 1080 / 2 - 200,
+                line_color: 'green', // Change the coordinate origin to the center of the window
+                response_start_time: 2000,
+                response_ends_trial: 'true',
+                response_type: 'key',
+                choices: ['space'],
+            },
+            {
+                obj_type: 'circle',
+                startX: 1920 / 6 * 4,
+                startY: 1080 / 2,
+                radius: 50,
+                line_color: 'black', // You can use the HTML color name instead of the HEX color.
+                fill_color: 'black',
+            },
+
+        ],
+        on_finish: function (data) {
+
+            if (data.rt < 2000 + 2000 * (4 - 2) + 100 & data.rt > 2000 + 2000 * (4 - 2) - 100) {
+                data.accuracy = 1;
+                var rrt = data.rt
+                console.log(data.accuracy)
+                console.log(data.rt)
+            } else if (data.rt > 2000 + 2000 * (4 - 2)) {
+                data.accuracy = 0;
+                console.log(data.accuracy)
+                var rrt = data.rt
+                console.log(data.rt)
+
+            } else if (data.rt < 2000 + 2000 * (4 - 2) - 100) {
+                data.accuracy = 2;
+                console.log(data.accuracy)
+                console.log(data.rt)
+
+            }
+
+            return rrt
+
+        }
+    }
+
+
+
+
+
+    const feedback = {
+        data: {
+            screen_id: "feedback"
+        },
+        type: jsPsychPsychophysics,
+        pixi: pixi_flag,
+        stimuli: [
+            {
+                obj_type: 'circle',
+                startX: 1920 / 6 * 4,
+                startY: 1080 / 2,
+                radius: 50,
+                line_color: 'black', // You can use the HTML color name instead of the HEX color.
+                fill_color: 'black',
+            },
+            {
+                obj_type: 'text',
+                startX: 1920 / 6 * 4,
+                startY: 1080 / 2 - 100,
+                content: '目标',
+                font: "22px 'Arial'",
+                text_color: 'white',
+                show_start_time: 0, // ms after the start of the trial
+            },
+            {
+                obj_type: 'line',
+                x1: 1920 / 6 * 2,
+                y1: 1080 / 2 + 200,
+                x2: 1920 / 6 * 2,
+                y2: 1080 / 2 - 200,
+                line_color: 'green', // Change the coordinate origin to the center of the window
+            },
+            //jsPsych.data.getLastTrialData().trials[0].rt
+            {
+                obj_type: 'circle',
+                startX: function (new_location) {
+
+                    var new_location = ((1920/6)/2000) * (jsPsych.data.get().last(1).values()[0].rt + 2000)
+                    console.log(jsPsych.data.get().last(1).values()[0].rt)
+                    console.log(((1920/6)/2000) * (jsPsych.data.get().last(1).values()[0].rt + 2000))
+                    return new_location
+                },
+                startY: 1080 / 2,
+                radius: 50,
+                line_color: 'black', // You can use the HTML color name instead of the HEX color.
+                fill_color: 'black',
+            },
+            {
+                obj_type: 'text',
+                startX: function (new_location_2) {
+                    var new_location_2 = ((1920/6)/2000) * (jsPsych.data.get().last(1).values()[0].rt + 2000);
+                    console.log(jsPsych.data.get().last(1).values()[0].rt)
+                    console.log(((1920/6)/2000) * (jsPsych.data.get().last(1).values()[0].rt + 2000))
+                    return new_location_2
+                },
+                startY: 1080 / 2 - 100,
+                content: '球运动位置',
+                font: "22px 'Arial'",
+                text_color: 'white',
+                show_start_time: 0, // ms after the start of the trial
+            },
+        ]
+
+
+    }
+
+    var repetition_count = 0;
+
+    var procedure = {
+        timeline: [exp_formal, feedback],
+        repetitions: 3,
+        on_timeline_start: function () {
+            repetition_count++;
+            console.log('Repetition number ', repetition_count, ' has just started.');
+        },
+        on_timeline_finish: function () {
+            console.log('Repetition number ', repetition_count, ' has just finished.')
+        }
+    }
+
+    jsPsych.run([fullscreen_trial, instruction, block_instruc_exam, viz_trial, block_instruc_formal, procedure, fullscreen_trial_exit])
+
+</script>
+
+</html>
