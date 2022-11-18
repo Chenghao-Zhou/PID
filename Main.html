@@ -1133,6 +1133,9 @@
     timeline_all = timeline_all.concat(fullscreen_trial_exit)
 
     jsPsych.run(timeline_all)
+    
+    localStorage.removeItem(subj_name)
+    
 
 </script>
 
