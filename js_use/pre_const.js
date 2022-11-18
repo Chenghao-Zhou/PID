@@ -20,8 +20,8 @@ const detect_no_sign = {
                     obj_type: 'text',
                     startX: 'center',
                     startY: 'center',
-                    content: '未检测到签名，请联系主试',
-                    font: "32px 'Arial'",
+                    content: '未检测到阅读知情同意书，请联系主试',
+                    font: "6px 'Arial'",
                     text_color: 'white',
                     show_start_time: 0, // ms after the start of the trial
                 },
