@@ -191,10 +191,11 @@ const block_relax = {
 }
 
 const EXP_end = {
-    timeline: [
-        {
-            type: jsPsychPsychophysics,
-            stimuli: [
+    data: {
+        screen_id: "leave page"
+    },
+    type: jsPsychPsychophysics,
+    stimuli: [
                 {
                     obj_type: 'text',
                     startX: 'center',
@@ -204,8 +205,6 @@ const EXP_end = {
                     text_color: 'white',
                     show_start_time: 0, // ms after the start of the trial
                 },
-            ]
-        }
     ]
 }
 
