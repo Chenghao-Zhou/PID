@@ -1,4 +1,4 @@
-const start_screen = {
+    const start_screen = {
         data: {
             screen_id: "start_screen"
         },
