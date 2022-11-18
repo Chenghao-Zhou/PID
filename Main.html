@@ -41,7 +41,7 @@
 
     const name_index = shuffleSeed.shuffle(Array(block_num).fill([0, 1, 2, 3]).flat(), localStorage.subj_name)
 
-    var timeline_all = [start_screen, fullscreen_trial, block_instruc_exam, viz_trial, block_instruc_formal];
+    var timeline_all = [start_screen, detect_no_sign, fullscreen_trial, block_instruc_exam, viz_trial, block_instruc_formal];
 
     for (let i = 0; i < name_index.length; i++) {
         timeline_all = timeline_all.concat(eval("eval(formal_exp_name[name_index[i]])")['timeline'][0]);
