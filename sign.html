@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="js_use/jspsych.js"></script>
+    <script src="js_use/plugin-instructions.js"></script>
+    <script src="js_use/plugin-survey-html-form.js"></script>
+    <link href="js_use/jspsych.css" rel="stylesheet" type="text/css">
+    </script>
+    <style>
+        .jspsych-display-element {
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body></body>
+<script type="text/javascript">
+
+    var JJJ = [
+        '<p>调查目的：']
+
+    var JJJ_2 = [
+        '<p>本次研究的费用来自于政府的科研资助，也就是来自于纳税人公共资金，而本次实验的数据提供者是您本人，所以本次实验的实验数据的直接所有者是您本人。将本研究的数据公开、且能为其他研究者使用，将会更大程度上地充分利用公共资金（例如，其他研究者可能不需要再次收集类似的数据），从而将您对科研界及人类社会的贡献最大化。但数据公开需要获得您的直接同意。<br/>\
+        公开本实验的数据，意味着您在本研究中所提供的数据未来可能会被其他研究项目使用。未来这些项目也许会与本研究的问题相关，也有可能无关。我们使用网络存储的公开数据库，将本次研究中的数据完全公开。<br/>\
+        共享的数据中不会出现您的姓名，而仅以代号显示，所以他人不会获知您的姓名，也无法将数据与您进行对应。此外，我们也将对其他敏感信息进行保密，避免了解您的人通过某些信息猜测到哪些是您的数据。<br/>\
+        如果您改变主意并想将此同意书撤回（您可以通过拨打『+8615910258380』致电『胡传鹏博士』来执行此操作），我们将不会录入关于您的任何额外数据。如果您在数据被录入数据库之前申请撤回，您的数据将能够被及时删除。请注意，所有已经公开共享给其他研究者或公开的数据和研究结果已经被匿名处理，无法再进行销毁或撤回。<br/>\
+        同意参与本研究，意味着您的数据将可能会在其他研究中被重复使用，这些研究可能会让人类社会变得更好。还有可能的是，使用您所共享数据的研究会有助于开发出新的诊断量表、新药物或其他产出。但是如果出现这些情况，您本人不会从这些产品中获得任何利益，也不会获得这些产品的任何所有权。<br/>\
+        根据我们充分了解到的情况，我们向公众共享的数据中将不会包含能够直接识别出您身份的信息。数据中没有您的名字、只有编码的数字，因此他人不会知道您的名字或者知道哪个数据是您。此外，数据中不会包括我们认为可能会让了解您的人猜测到哪个数据属于您的信息，比如您参与研究的日期等。如果我们就本研究撰写报告、文章，或者将本次研究的数据分享给他人，我们也将确保您不会被识别出来。<br/>\
+        然而，非法的安全破坏（比如，网络入侵或网络攻击）可能会导致他人从数据中识别您的身份。但是，这种风险很低，因为我们会将您的数据储存在安全的数据库；并且，您的身份信息与数据是分开存储的，只有一个代码可以将二者联系起来。<br/>\
+        您数据的隐私部分（包括姓名，联系方式等）将至少被安全保存10年。在该期限后，我们将会销毁这些信息以保护您的隐私。<br/>\
+        是否让我们使用及分享您的数据将完全由您自愿决定。但是，参加本研究的前提是您愿意使用这种方式来分享您的数据。如果您不愿意，您将无法参加这项研究。<br/>\
+        如果您继续后续步骤，代表您充分理解上述关于公开数据的说明，同意在不清楚未来研究的细节、结果和应用的前提下，向未来的研究共享您的数据，与来自世界各地研究机构的研究者共享您的数据。<br/>\
+'
+    ]
+
+
+
+    var jsPsych = initJsPsych({
+        on_finish: function () {
+            localStorage.subj_name = jsPsych.data.get().trials[2]['response']['subj_name'];
+            jsPsych.data.get().localSave("csv", "Day0_sign_"+localStorage.subj_name+".csv");
+            console.log(localStorage.subj_name);
+        }
+    });
+    /*
+            var fullscreen_trial = {
+                type: jsPsychFullscreen,
+                fullscreen_mode: true
+            };
+            */
+	
+    var trial_1 = {
+        type: jsPsychInstructions,
+        pages: JJJ,
+        show_clickable_nav: true,
+        show_page_number: true,
+        button_label_previous: '上一页',
+        button_label_next: '下一页',
+    };
+
+    var trial_2 = {
+        type: jsPsychInstructions,
+        pages: JJJ_2,
+        show_clickable_nav: true,
+        show_page_number: true,
+        button_label_previous: '上一页',
+        button_label_next: '下一页',
+    };
+
+
+    var form_trial = {
+        type: jsPsychSurveyHtmlForm,
+        preamble: '<p> <b>确认无误</b>后请签字（拼音） </p>',
+        html: '<p>签名 <input name="subj_name" type="text" />, 日期 <input dataa="subj_data" type="text" />.</p>'
+    };
+
+
+    jsPsych.run([trial_1, trial_2, form_trial]);
+
+
+
+</script>
+
+</html>
