@@ -1,5 +1,5 @@
-var block_num = 1;
-var trial_num = 2;
+var block_num = 7;
+var trial_num = 15;
 
 const start_screen = {
     data: {
